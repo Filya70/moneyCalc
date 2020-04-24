@@ -9,33 +9,7 @@ operationName = document.querySelector('.operation__name'),
 operationAmount = document.querySelector('.operation__amount'),
 historyItem = document.querySelector('.history__item');
 
-let dbOperation = [
-    {
-        id: '1',
-        description: 'Получил ',
-        amount: 50000
-    },
-    {
-        id: '2',
-        description: 'Квартплата ',
-        amount: -11000
-    },
-    {
-        id: '3',
-        description: 'Продукты ',
-        amount: -2500
-    },
-    {
-        id: '4',
-        description: 'Купил игру ',
-        amount: -1500
-    },
-    {
-        id: '5',
-        description: 'Сделал сайт',
-        amount: 7000
-    },
-]
+let dbOperation = JSON.parse(localStorage.getItem('calc')) || [];
 
 
 const generateId = () => `i${Math.round(Math.random()*1e8).toString(16)}`
@@ -108,6 +82,8 @@ const init = () =>{
     
     dbOperation.forEach(renderOperation);
     updateBalance()
+
+    localStorage.setItem('calc', JSON.stringify(dbOperation))
 }
 
 form.addEventListener('submit', addOperation)
