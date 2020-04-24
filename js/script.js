@@ -37,6 +37,9 @@ let dbOperation = [
     },
 ]
 
+
+const generateId = () => `i${Math.round(Math.random()*1e8).toString(16)}`
+
 const renderOperation = (operation) =>{
     
     const className = operation.amount < 0 ? 'history__item-minus' : 'history__item-plus'
@@ -45,7 +48,7 @@ const renderOperation = (operation) =>{
     listItem.classList.add('history__item', className)
     listItem.innerHTML = `${operation.description}
         <span class="history__money">${operation.amount} ₽</span>
-        <button class="history_delete">x</button>
+        <button class="history_delete" data-id="${operation.id}">x</button>
     `;
     
     historyList.append(listItem)
@@ -68,11 +71,47 @@ const updateBalance = () =>{
     
 }
 
+const addOperation = (e) =>{
+    e.preventDefault()
+    const operationNameValue = operationName.value,
+        operationAmountValue = operationAmount.value;
+
+        if(operationNameValue.trim() !== '' && operationNameValue.trim() !== ''){
+
+            const operation ={
+                id: generateId(),
+                description: operationName.value,
+                amount: +operationAmount.value
+            }
+
+            dbOperation.push(operation)
+
+            init()
+
+            operationName.value = ''
+            operationAmount.value = ''
+        }
+}
+
+const deleteOperation = (e) =>{
+    let target = e.target
+    if(target.classList.contains('history_delete')){
+        dbOperation = dbOperation
+        .filter(item => item.id !== target.dataset.id)        
+    }
+
+    init()
+}
+
 const init = () =>{
     historyList.textContent = ''
     
     dbOperation.forEach(renderOperation);
     updateBalance()
 }
+
+form.addEventListener('submit', addOperation)
+
+historyList.addEventListener('click', deleteOperation)
 
 init()
