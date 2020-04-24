@@ -53,10 +53,26 @@ const renderOperation = (operation) =>{
     
 }
 
+const updateBalance = () =>{
+    const resultIncome = dbOperation
+        .filter((item) => item.amount > 0)
+        .reduce((acc, item) => acc+item.amount, 0)
+
+    const resultExpenses = dbOperation
+        .filter((item) => item.amount < 0)
+        .reduce((acc, item) => acc+item.amount, 0)
+    
+    totalMoneyIncome.textContent = resultIncome + ' ₽'
+    totalMoneyExpenses.textContent = resultExpenses + ' ₽'
+    totalBalance.textContent = (resultIncome + resultExpenses) + ' ₽'
+    
+}
+
 const init = () =>{
     historyList.textContent = ''
     
     dbOperation.forEach(renderOperation);
+    updateBalance()
 }
 
 init()
