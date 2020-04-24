@@ -1,8 +1,8 @@
 
-const = 
+const 
 totalBalance = document.querySelector('.total__balance'),
-totalMoney-income = document.querySelector('.total__money-income'),
-totalMoney-expenses = document.querySelector('.total__money-expenses'),
+totalMoneyIncome = document.querySelector('.total__money-income'),
+totalMoneyExpenses = document.querySelector('.total__money-expenses'),
 historyList = document.querySelector('.history__list'),
 form = document.querySelector('#form'),
 operationName = document.querySelector('.operation__name'),
